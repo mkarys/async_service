@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  async:
+    build:
+      context: .
+      dockerfile: ./docker/backend.dockerfile
+    container_name: async
+    image: async:latest
+    restart: always
+    ports:
+      - 8007:8000
+    depends_on:
+      - db
+    env_file: ./docker/backend.env
+    volumes:
+      - .:/async_service
+    links:
+      - db:postgres
+
+  db:
+    container_name: async-db
+    volumes:
+      - ./postgresql:/var/lib/postgresql/data
+    image: postgres:9.5-alpine
+    env_file: ./docker/backend.env
