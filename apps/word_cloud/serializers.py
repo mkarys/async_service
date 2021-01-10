@@ -19,4 +19,5 @@ class WordCloudSerializer(serializers.ModelSerializer):
 
     def get_image(self, obj):
         request = self.context.get("request")
-        return request.build_absolute_uri(obj.image.url)
+        if obj.image:
+            return request.build_absolute_uri(obj.image.url)
